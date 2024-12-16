@@ -1,0 +1,86 @@
+<section>
+  <div class="add-category-container bg-[--secondary-color]">
+    <div class="p-5 content">
+      <div class="text-center text mb-7">
+        <h3 class="text-2xl text-[--primary-color] mb-2">
+          {{ formStatus }} Categories
+        </h3>
+        <p>You Can {{ formStatus }} Categroies From Here..!</p>
+      </div>
+      <form #categoryform="ngForm" (ngSubmit)="onSubmit(categoryform)">
+        <div class="flex items-center ml-5 input-status-content">
+          <div class="w-full input-category">
+            <input
+              type="text"
+              name="category"
+              class="block w-3/4 p-2 mr-3 outline-none h-9"
+              placeholder="Add New Category"
+              required
+              #category="ngModel"
+              [ngClass]="{
+                'border-red-500 border-r-8 border-solid':
+                  category.touched && category.invalid
+              }"
+              [(ngModel)]="inputText"
+            />
+            @if(category.touched && category.invalid){
+            <div
+              class="w-3/4 p-2 text-center text-white bg-red-600 rounded shadow alert-danger"
+            >
+              Category Field Is Required.
+            </div>
+            }
+          </div>
+          <div class="btn w-[300px] max-md:w-[150px]">
+            <button
+              class="bg-[--primary-color] text-[--secondary-color] py-4 px-10 rounded-lg m-auto hover:bg-sky-700 transition-all"
+              [disabled]="category.invalid"
+            >
+              {{ formStatus }} Category
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="mt-10 post-content">
+    <table class="w-3/5 m-auto overflow-hidden bg-white rounded-lg shadow-md">
+      <thead class="bg-gray-200">
+        <tr>
+          <th class="px-4 py-3 text-sm font-semibold text-left uppercase">
+            No
+          </th>
+          <th class="px-4 py-3 text-sm font-semibold text-left uppercase">
+            Category
+          </th>
+          <th class="px-4 py-3 text-sm font-semibold text-left uppercase">
+            Action
+          </th>
+        </tr>
+      </thead>
+      <tbody class="text-gray-700">
+        @for(data of DataValue ; track data.id ;let i = $index){
+
+        <tr class="border-b border-gray-200">
+          <td class="px-4 py-3">{{ i + 1 }}</td>
+          <td class="px-4 py-3">{{ data.data.category }}</td>
+          <td class="px-4 py-3">
+            <button
+              class="px-4 py-2 text-white transition-all bg-yellow-400 rounded hover:bg-blue-600"
+              (click)="onEdit(data.data.category, data.id)"
+            >
+              Edit
+            </button>
+            <button
+              class="px-4 py-2 ml-2 text-white bg-red-500 rounded hover:bg-red-600"
+              (click)="onDelete(data.id)"
+            >
+              Delete
+            </button>
+          </td>
+        </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</section>

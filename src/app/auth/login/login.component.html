@@ -1,0 +1,46 @@
+<section class="bg-[--secondary-color] w-2/4 m-auto py-5">
+  <div class="text-center login-container">
+    <div class="p-5 content">
+      <div class="text mb-7">
+        <h3 class="text-2xl text-[--primary-color] mb-2">Login</h3>
+        <p>Please login to your admin account to post a new blog post.</p>
+      </div>
+    </div>
+    <form #loginForm="ngForm" (ngSubmit)="onSubmit(loginForm.value)">
+      <input
+        type="email"
+        class="w-3/4 h-12 p-2 mr-3 outline-none shadow-style"
+        placeholder="Enter You Email"
+        name="email"
+        #email="ngModel"
+        ngModel
+        email
+        required
+      />
+      @if(email.errors?.['required'] && email.touched){
+      <div class="mt-2 text-red-500">Email Can't Be Empty.</div>
+      } @if(email.invalid && email.touched && email.errors?.['email']){
+      <div class="mt-2 text-red-500">Email Format Wrong.</div>
+      }
+      <input
+        type="password"
+        class="w-3/4 h-12 p-2 mt-5 mr-3 outline-none shadow-style"
+        placeholder="Enter You Password"
+        name="password"
+        #password="ngModel"
+        required
+        ngModel
+      />
+      @if(password.invalid && password.touched){
+      <div class="mt-2 text-red-500">Password Can't Be Empty.</div>
+      }
+      <div class="w-3/4 m-auto mt-5 text-center btn">
+        <button
+          class="bg-[--primary-color] text-[--secondary-color] py-2 rounded-lg m-auto hover:bg-sky-700 transition-all w-full text-lg"
+        >
+          Login
+        </button>
+      </div>
+    </form>
+  </div>
+</section>

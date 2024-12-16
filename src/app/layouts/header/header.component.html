@@ -1,0 +1,22 @@
+<header
+  class="container fixed top-0 z-50 flex items-center justify-center w-full h-24 bg-white"
+>
+  <div class="w-full text-center logo-container">
+    <div
+      class="logo bg-[--secondary-color] px-4 py-1 rounded-2xl inline-block absolute left-1/2 -translate-x-1/2"
+    >
+      <a href="" class="text-[--primary-color]">ANG-BLOG</a>
+    </div>
+    @if(isLoggedIn$ | async){
+    <div class="inline-block mr-4 email-container float-end">
+      <a class="absolute text-blue-700 cursor-pointer top-2">{{ userEmail }}</a>
+      <button
+        class="px-4 py-2 ml-2 text-white transition-all bg-yellow-500 rounded hover:bg-blue-600"
+        (click)="logout()"
+      >
+        Logout
+      </button>
+    </div>
+    }
+  </div>
+</header>

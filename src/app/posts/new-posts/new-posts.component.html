@@ -1,0 +1,122 @@
+<section class="mb-20 bg-[#ddd]">
+  <div class="py-3 mb-5 text-center content-header">
+    <h3 class="mb-3 text-2xl text-[--primary-color]">{{ formStatus }} Post</h3>
+    <p>You Can {{ formStatus }} Post Here.</p>
+  </div>
+  <form [formGroup]="postForm" (ngSubmit)="onSubmit()">
+    <div class="flex justify-between gap-10 forms-control">
+      <div class="self-center w-full p-4 bg-white h-fit col-1 shadow-style">
+        <div class="mb-4 form-control">
+          <label>Title</label>
+          <input
+            type="text"
+            class="block w-full p-2 mt-2 outline-none h-9"
+            [ngClass]="{ 'border-r-red-600 border-solid border-4': postForm.get('title')?.errors?.['required'] && postForm.get('title')?.touched || postForm.get('title')?.errors?.['minlength'] }"
+            placeholder="Title"
+            formControlName="title"
+            (keyup)="onChangeTitle($event)"
+          />
+          @if(postForm.get('title')?.errors?.['required'] &&
+          postForm.get('title')?.touched){
+          <div class="mt-2 text-red-500">Title is required.</div>
+          } @if (postForm.get('title')?.errors?.['minlength']) {
+          <div class="mt-2 text-red-500">
+            Title must be at least 5 characters long.
+          </div>
+          }
+        </div>
+        <div class="mb-4 form-control">
+          <label>Permalink</label>
+          <input
+            type="text"
+            class="block w-full p-2 mt-2 text-white bg-gray-300 outline-none pointer-events-none h-9 shadow-style"
+            [(ngModel)]="permalinkValue"
+            name="permalink"
+            placeholder="Permalink"
+            formControlName="permalink"
+          />
+        </div>
+        <div class="mb-4 form-control">
+          <label>Excerpt</label>
+          <textarea
+            type="text"
+            class="block w-full h-32 p-2 mt-2 outline-none shadow-style"
+            placeholder="excerpt"
+            formControlName="excerpt"
+          ></textarea>
+          @if(postForm.get('excerpt')?.errors?.['required'] &&
+          postForm.get('excerpt')?.touched){
+          <div class="mt-2 text-red-500">Excerpt is required.</div>
+          } @if (postForm.get('excerpt')?.errors?.['minlength']) {
+          <div class="mt-2 text-red-500">
+            Excerpt must be at least 30 characters long.
+          </div>
+          }
+        </div>
+      </div>
+      <div class="w-full p-4 bg-white col-2 shadow-style">
+        <div class="mb-4 form-control">
+          <label>Please select a post category</label>
+          <select
+            class="block w-full p-2 mt-2 outline-none h-9 shadow-style"
+            formControlName="category"
+          >
+            <option value="">Select From Here Post Category</option>
+            @for(category of categoryData ; track category.id){
+            <option value=" {{ category.id }}-{{ category.data.category }} ">
+              {{ category.data.category }}
+            </option>
+            }
+          </select>
+          @if(postForm.get('category')?.errors?.['required'] &&
+          postForm.get('category')?.touched){
+          <div class="mt-2 text-red-500">Category is required.</div>
+          }
+        </div>
+        <div class="form-control">
+          <label>Post Image</label>
+          <img
+            [src]="imgUrl"
+            alt=""
+            class="w-full h-[300px] object-cover rounded-md"
+          />
+          <input
+            type="file"
+            class="block w-full p-2 mt-2 outline-none h-9 shadow-style"
+            formControlName="postImg"
+            (change)="onChangeURL($event)"
+          />
+          @if(postForm.get('postImg')?.errors?.['required'] &&
+          postForm.get('postImg')?.touched){
+          <div class="mt-2 text-red-500">Choose Image is required.</div>
+          }
+        </div>
+      </div>
+    </div>
+    <div class="mt-10 form-control">
+      <div class="content h-[300px] shadow-style bg-white pt-2">
+        <label class="p-2">Content</label>
+        <div class="mt-2 editor h-[300px] border-4 border-solid border-y-black">
+          <p-editor [style]="{ height: '250px' }" formControlName="content" />
+        </div>
+      </div>
+    </div>
+    <div class="py-2 mt-16 text-center btns">
+      <!-- Buttons -->
+      <button
+        type="submit"
+        class="px-4 py-2 mr-2 text-white bg-[--primary-color] rounded hover:bg-blue-600 disabled:bg-gray-500 disabled:cursor-not-allowed"
+        [disabled]="formStatus == 'Add New' && postForm.invalid"
+      >
+        {{ formStatus }}
+      </button>
+
+      <button
+        type="button"
+        class="px-4 py-2 ml-4 text-black bg-yellow-300 rounded hover:bg-gray-600"
+      >
+        Reset
+      </button>
+    </div>
+  </form>
+</section>

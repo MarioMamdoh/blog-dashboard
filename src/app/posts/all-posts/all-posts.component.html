@@ -1,0 +1,122 @@
+<section>
+  <div class="add-category-container bg-[--secondary-color]">
+    <div class="p-5 content">
+      <div class="text-center text mb-7">
+        <h3 class="text-2xl text-[--primary-color] mb-2">All Blog Posts</h3>
+        <p>From Here You Can Manage Your Blog Posts.</p>
+      </div>
+      <div class="text-center btns">
+        <button
+          class="bg-[--primary-color] text-[--secondary-color] py-3 px-6 rounded-lg m-auto hover:bg-sky-700 transition-all"
+          routerLink="/posts/new"
+          (click)="onAdding()"
+        >
+          Add New Post Category
+        </button>
+        <button
+          class="bg-yellow-500 text-[--secondary-color] py-3 px-6 rounded-lg m-auto hover:bg-sky-700 transition-all ml-3"
+          routerLink=""
+        >
+          Back To Dashboard
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="mt-10 post-content">
+    <table class="w-full m-auto overflow-hidden bg-white rounded-lg shadow-md">
+      <thead class="bg-gray-200">
+        <tr>
+          <th class="px-4 py-3 text-sm font-semibold text-left uppercase">
+            No
+          </th>
+          <th class="px-4 py-3 text-sm font-semibold text-left uppercase">
+            Post Image
+          </th>
+          <th class="px-4 py-3 text-sm font-semibold text-left uppercase">
+            Title
+          </th>
+          <th class="px-4 py-3 text-sm font-semibold text-left uppercase">
+            Excerpt
+          </th>
+          <th class="px-4 py-3 text-sm font-semibold text-left uppercase">
+            Content
+          </th>
+          <th class="px-4 py-3 text-sm font-semibold text-left uppercase">
+            Category
+          </th>
+          <th class="px-4 py-3 text-sm font-semibold text-left uppercase">
+            Date
+          </th>
+          <th class="px-4 py-3 text-sm font-semibold text-left uppercase">
+            Action
+          </th>
+        </tr>
+      </thead>
+      <tbody class="text-gray-700">
+        @for (post of postData; track post.id ) {
+
+        <tr class="mb-4 border-b border-gray-200">
+          <td width="10px">{{ $index + 1 }}</td>
+          <td width="200px"><img [src]="post.data.postImgPath" alt="" /></td>
+          <td width="100px">{{ post.data.title }}</td>
+          <td width="200px">{{ post.data.excerpt }}</td>
+          @if(!isShowContent){
+          <td>
+            <button
+              class="px-1 py-1 text-white transition-all bg-yellow-400 rounded-md hover:bg-blue-600"
+              (click)="showContent()"
+            >
+              Show
+            </button>
+          </td>
+          } @else {
+        <td [innerHTML]="post.data.content" >
+            <button
+              class="float-right px-2 py-2 text-white transition-all bg-yellow-400 rounded-md hover:bg-blue-600"
+              (click)="isShowContent = false"
+            >
+              Hide
+            </button>
+          </td>
+          }
+          <td width="50px">{{ post.data.category.data }}</td>
+          <td>{{ post.data.createAt.toMillis() | date }}</td>
+          <td width="300px">
+            <button
+              class="px-2 py-2 text-white transition-all bg-yellow-400 rounded-md hover:bg-blue-600"
+              routerLink="/posts/new"
+              [queryParams]="{ id: post.id }"
+              (click)="OnEditing()"
+            >
+              Edit
+            </button>
+            <button
+              class="px-2 py-2 ml-2 text-white bg-red-500 rounded-md hover:bg-red-600"
+              (click)="onDelete(post.id, post.data.postImgPath)"
+            >
+              Delete
+            </button>
+            @if(!post.data.isFeatured){
+
+            <button
+              class="px-2 py-2 ml-2 text-white bg-green-500 rounded-md hover:bg-green-600"
+              (click)="isFeatured(post.id, true)"
+            >
+              Mark As Featured
+            </button>
+            } @if(post.data.isFeatured){
+
+            <button
+              class="px-2 py-2 ml-2 text-white bg-red-500 rounded-md hover:bg-red-600"
+              (click)="isFeatured(post.id, false)"
+            >
+              Remove Featured
+            </button>
+            }
+          </td>
+        </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</section>
